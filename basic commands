@@ -1,0 +1,12 @@
+# set storage quota for tenant in MB. it will be rounded to nearest GB:
+Set-SPOTenant -OneDriveStorageQuota 500
+
+# Identify the size of onedrive storage usage across tenant
+Get-SPOSite -IncludePersonalSite $true -Limit all -Filter "Url -like '-my.sharepoint.com/personal/'"  | select url,storageusagecurrent | Sort-Object storageusagecurrent -descending
+
+# Set quota for individual user's onedrive (can be only done through powershell)
+Set-SPOSite -identity "sharepoint URL for the user's personal sharepoint site" -StorageQuota 1024
+
+# Reset quota for an individual user:
+Set-SPOSite -Identity "sharepoint URL for the user's personal sharepoint site" -StorageQuotaReset
+
